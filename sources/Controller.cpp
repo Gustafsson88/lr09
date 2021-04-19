@@ -56,9 +56,10 @@ void Controller::producer()
         collection_links.pop();
         mut_for_download.unlock();
         tools.enqueue(&Crawler::connect, std::ref(*this), http_page,
-                      depth,std::ref(mut_for_download));
+                      depth, std::ref(mut_for_download));
       }
-    } else
+    }
+    else
     {
       k += 1;
       sleep(5);
@@ -84,7 +85,7 @@ void Controller::consumer()
         char *data_for_parse = const_cast<char *>(link.c_str());
         GumboOutput *output = gumbo_parse(data_for_parse);
         tools.enqueue(&Crawler::search_for_links, std::ref(*this),
-                      std::ref(output->root),depth + 1, max_depth,
+                      std::ref(output->root), depth + 1, max_depth,
                       std::ref(mut_for_parse));
       }
     } else

@@ -12,6 +12,7 @@
 #include <future>
 #include <functional>
 #include <stdexcept>
+#include <utility>
 
 class ThreadPool {
  public:
@@ -36,7 +37,7 @@ class ThreadPool {
 inline ThreadPool::ThreadPool(size_t threads)
     :   stop(false)
 {
-  for (size_t i = 0; i<threads; ++i)
+  for (size_t i = 0; i < threads; ++i)
     workers.emplace_back(
         [this]
         {
@@ -57,8 +58,7 @@ inline ThreadPool::ThreadPool(size_t threads)
 
             task();
           }
-        }
-    );
+        });
 }
 
 // add new work item to the pool
@@ -69,15 +69,14 @@ auto ThreadPool::enqueue(F&& f, Args&&... args)
   using return_type = typename std::result_of<F(Args...)>::type;
 
   auto task = std::make_shared< std::packaged_task<return_type()> >(
-      std::bind(std::forward<F>(f), std::forward<Args>(args)...)
-  );
+      std::bind(std::forward<F>(f), std::forward<Args>(args)...));
 
   std::future<return_type> res = task->get_future();
   {
     std::unique_lock<std::mutex> lock(queue_mutex);
 
     // don't allow enqueueing after stopping the pool
-    if(stop)
+    if (stop)
       throw std::runtime_error("enqueue on stopped ThreadPool");
 
     tasks.emplace([task](){ (*task)(); });
@@ -94,7 +93,7 @@ inline ThreadPool::~ThreadPool()
     stop = true;
   }
   condition.notify_all();
-  for(std::thread &worker: workers)
+  for (std::thread &worker: workers)
     worker.join();
 }
 

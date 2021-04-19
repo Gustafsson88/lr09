@@ -6,7 +6,8 @@
 #include "Crawler.hpp"
 #include "ThreadPool.hpp"
 #include <thread>
-
+#include <queue>
+#include <string>
 
 class Controller
 {
@@ -31,4 +32,4 @@ class Controller
   std::mutex mut_for_parse;
 };
 
-#endif  // PRODUCER_CONSUMER_CONTROLLER_HPP
+#endif  // INCLUDE_CONTROLLER_HPP_

@@ -40,8 +40,8 @@ class Crawler
   Crawler();
   static void connect(class Controller &cr, std::string &reference, int depth,
                std::mutex &mut);
-  static void search_for_links(class Controller &cr, GumboNode* node, int new_depth,
-                        int max_depth, std::mutex &mut);
+  static void search_for_links(class Controller &cr, GumboNode* node,
+                               int new_depth, int max_depth, std::mutex &mut);
   ~Crawler();
 };
 

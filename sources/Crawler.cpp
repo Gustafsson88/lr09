@@ -18,7 +18,7 @@ void Crawler::search_for_links(class Controller &cr, GumboNode *node,
       && new_depth <= max_depth)
   {
     std::string ur = href->value;
-    std::string check_http = ur.substr(0,7);
+    std::string check_http = ur.substr(0, 7);
     if (check_http == for_check_http)
     {
         struct links new_link;
@@ -68,7 +68,7 @@ void Crawler::connect(class Controller &cr, std::string &reference, int depth,
 {
   std::string data;
   std::string url = reference.substr(7);
-  std::string host = url.substr(0,url.find("/"));
+  std::string host = url.substr(0, url.find("/"));
   std::string target = url.substr(url.find("/"));
   std::string port = "80";
 
@@ -80,7 +80,7 @@ void Crawler::connect(class Controller &cr, std::string &reference, int depth,
   boost::asio::connect(socket, results.begin(), results.end());
   int version = 11;
 
-  http::request<http::string_body> req{http::verb::get,target, version};
+  http::request<http::string_body> req{http::verb::get, target, version};
   req.set(http::field::host, host);
   req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
 
@@ -96,7 +96,7 @@ void Crawler::connect(class Controller &cr, std::string &reference, int depth,
   bool t = true;
   while (t)
   {
-    if(mut.try_lock())
+    if (mut.try_lock())
     {
       t = false;
       cr.http_for_parse.push(str_http);
