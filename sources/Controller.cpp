@@ -58,9 +58,7 @@ void Controller::producer()
         tools.enqueue(&Crawler::connect, std::ref(*this), http_page,
                       depth, std::ref(mut_for_download));
       }
-    }
-    else
-    {
+    } else {
       k += 1;
       sleep(5);
     }
@@ -88,8 +86,7 @@ void Controller::consumer()
                       std::ref(output->root), depth + 1, max_depth,
                       std::ref(mut_for_parse));
       }
-    } else
-    {
+    } else {
       k += 1;
       sleep(5);
     }
