@@ -35,8 +35,9 @@ void Controller::first_download()
   http_for_parse.pop();
   char *data_for_parse = const_cast<char *>(first.http_str.c_str());
   GumboOutput *output = gumbo_parse(data_for_parse);
-  Crawler::search_for_links(std::ref(*this), std::ref(output->root), first.depth + 1,
-                      max_depth,std::ref(mut));
+  Crawler::search_for_links(std::ref(*this), std::ref(output->root),
+                            first.depth + 1, max_depth,
+                            std::ref(mut));
 }
 
 void Controller::producer()
@@ -54,8 +55,8 @@ void Controller::producer()
         int depth = collection_links.front().depth;
         collection_links.pop();
         mut_for_download.unlock();
-        tools.enqueue(&Crawler::connect, std::ref(*this), http_page, depth,
-                      std::ref(mut_for_download));
+        tools.enqueue(&Crawler::connect, std::ref(*this), http_page,
+                      depth,std::ref(mut_for_download));
       }
     } else
     {

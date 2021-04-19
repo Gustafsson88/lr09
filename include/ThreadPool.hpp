@@ -1,7 +1,7 @@
 // Copyright 2021 Danil Postvaykin <postvaykin01@mail.ru>
 
-#ifndef PRODUCER_CONSUMER_THREADPOOL_HPP
-#define PRODUCER_CONSUMER_THREADPOOL_HPP
+#ifndef INCLUDE_THREADPOOL_HPP_
+#define INCLUDE_THREADPOOL_HPP_
 
 #include <vector>
 #include <queue>
@@ -15,7 +15,7 @@
 
 class ThreadPool {
  public:
-  ThreadPool(size_t);
+  explicit ThreadPool(size_t);
   template<class F, class... Args>
   auto enqueue(F&& f, Args&&... args)
   -> std::future<typename std::result_of<F(Args...)>::type>;
@@ -36,19 +36,20 @@ class ThreadPool {
 inline ThreadPool::ThreadPool(size_t threads)
     :   stop(false)
 {
-  for(size_t i = 0;i<threads;++i)
+  for (size_t i = 0; i<threads; ++i)
     workers.emplace_back(
         [this]
         {
-          for(;;)
+          for (;;)
           {
             std::function<void()> task;
 
             {
               std::unique_lock<std::mutex> lock(this->queue_mutex);
               this->condition.wait(lock,
-                                   [this]{ return this->stop || !this->tasks.empty(); });
-              if(this->stop && this->tasks.empty())
+                                   [this]{ return this->stop ||
+                                                   !this->tasks.empty(); });
+              if (this->stop && this->tasks.empty())
                 return;
               task = std::move(this->tasks.front());
               this->tasks.pop();
@@ -97,4 +98,4 @@ inline ThreadPool::~ThreadPool()
     worker.join();
 }
 
-#endif  // PRODUCER_CONSUMER_THREADPOOL_HPP
+#endif  // INCLUDE_THREADPOOL_HPP_

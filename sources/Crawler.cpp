@@ -4,8 +4,8 @@
 
 Crawler::Crawler() {}
 
-void Crawler::search_for_links(class Controller &cr, GumboNode *node, int new_depth, int max_depth,
-                               std::mutex &mut)
+void Crawler::search_for_links(class Controller &cr, GumboNode *node,
+                               int new_depth, int max_depth, std::mutex &mut)
 {
   if (node->type != GUMBO_NODE_ELEMENT) {
     return;
@@ -57,12 +57,14 @@ void Crawler::search_for_links(class Controller &cr, GumboNode *node, int new_de
   GumboVector* children = &node->v.element.children;
   for (unsigned int i = 0; i < children->length; ++i)
   {
-    search_for_links(std::ref(cr), static_cast<GumboNode*>(children->data[i]),new_depth,
+    search_for_links(std::ref(cr),
+                     static_cast<GumboNode*>(children->data[i]), new_depth,
                      max_depth, std::ref(mut));
   }
 }
 
-void Crawler::connect(class Controller &cr, std::string &reference, int depth, std::mutex &mut)
+void Crawler::connect(class Controller &cr, std::string &reference, int depth,
+                      std::mutex &mut)
 {
   std::string data;
   std::string url = reference.substr(7);

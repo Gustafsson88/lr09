@@ -1,7 +1,7 @@
 // Copyright 2021 Danil Postvaykin <postvaykin01@mail.ru>
 
-#ifndef PRODUCER_CONSUMER_CONTROLLER_HPP
-#define PRODUCER_CONSUMER_CONTROLLER_HPP
+#ifndef INCLUDE_CONTROLLER_HPP_
+#define INCLUDE_CONTROLLER_HPP_
 
 #include "Crawler.hpp"
 #include "ThreadPool.hpp"
