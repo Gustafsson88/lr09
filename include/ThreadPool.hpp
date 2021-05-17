@@ -1,4 +1,4 @@
-// Copyright 2021 Danil Postvaykin <postvaykin01@mail.ru>
+// Copyright 2021 Alexandr Guchkov <firer.a45@gmail.com>
 
 #ifndef INCLUDE_THREADPOOL_HPP_
 #define INCLUDE_THREADPOOL_HPP_
